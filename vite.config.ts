@@ -1,34 +1,33 @@
 /// <reference types="vitest" />
-
-import { createRequire } from 'node:module'
-import path from 'node:path'
-import legacy from '@vitejs/plugin-legacy'
-import vue from '@vitejs/plugin-vue'
-import { visualizer } from 'rollup-plugin-visualizer'
-import AutoImport from 'unplugin-auto-import/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
-import Components from 'unplugin-vue-components/vite'
-import { defineConfig, loadEnv } from 'vite'
-import viteCompression from 'vite-plugin-compression'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import { createRequire } from "node:module";
+import path from "node:path";
+import legacy from "@vitejs/plugin-legacy";
+import vue from "@vitejs/plugin-vue";
+import { visualizer } from "rollup-plugin-visualizer";
+import AutoImport from "unplugin-auto-import/vite";
+import IconsResolver from "unplugin-icons/resolver";
+import Icons from "unplugin-icons/vite";
+import Components from "unplugin-vue-components/vite";
+import { defineConfig, loadEnv } from "vite";
+import viteCompression from "vite-plugin-compression";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import vueDevTools from "vite-plugin-vue-devtools";
 // https://vitejs.dev/config/
 
-const require = createRequire(import.meta.url)
-const process = require('node:process')
+const require = createRequire(import.meta.url);
+const process = require("node:process");
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, __dirname)
-  const chunkName = mode === 'prebuild' ? '[name]' : 'chunk'
+  const env = loadEnv(mode, __dirname);
+  const chunkName = mode === "prebuild" ? "[name]" : "chunk";
 
   return {
-    base: mode === 'file' ? './' : '/log-lottery/',
+    base: mode === "file" ? "./" : "/", //"/", //mode === 'file' ? './' : '/log-lottery/',
     plugins: [
       vue(),
-      mode === 'file'
+      mode === "file"
         ? legacy({
-            additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+            additionalLegacyPolyfills: ["regenerator-runtime/runtime"],
           })
         : null,
       // vueDevTools(),
@@ -36,12 +35,12 @@ export default defineConfig(({ mode }) => {
         verbose: true,
         disable: false,
         threshold: 10240,
-        algorithm: 'gzip',
-        ext: '.gz',
+        algorithm: "gzip",
+        ext: ".gz",
       }),
       visualizer({
         emitFile: true, // 是否被触摸
-        filename: 'test.html', // 生成分析网页文件名
+        filename: "test.html", // 生成分析网页文件名
         open: true, // 在默认用户代理中打开生成的文件
         gzipSize: true, // 从源代码中收集 gzip 大小并将其显示在图表中
         brotliSize: true, // 从源代码中收集 brotli 大小并将其显示在图表中
@@ -49,27 +48,27 @@ export default defineConfig(({ mode }) => {
 
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹
-        iconDirs: [path.resolve(process.cwd(), 'src/icons')],
+        iconDirs: [path.resolve(process.cwd(), "src/icons")],
         // 指定symbolId格式
-        symbolId: 'icon-[dir]-[name]',
+        symbolId: "icon-[dir]-[name]",
       }),
       AutoImport({
         resolvers: [
           // 自动导入图标组件
           IconsResolver({
-            prefix: 'Icon',
+            prefix: "Icon",
           }),
         ],
-        dts: path.resolve(path.resolve(__dirname, 'src'), 'auto-imports.d.ts'),
+        dts: path.resolve(path.resolve(__dirname, "src"), "auto-imports.d.ts"),
       }),
       Components({
         resolvers: [
           // 自动注册图标组件
           IconsResolver({
-            enabledCollections: ['ep'],
+            enabledCollections: ["ep"],
           }),
         ],
-        dts: path.resolve(path.resolve(__dirname, 'src'), 'components.d.ts'),
+        dts: path.resolve(path.resolve(__dirname, "src"), "components.d.ts"),
       }),
       Icons({
         autoInstall: true,
@@ -89,25 +88,25 @@ export default defineConfig(({ mode }) => {
       // }
     },
     server: {
-      host: 'localhost',
+      host: "localhost",
       port: 6719,
       proxy: {
-        '/api': {
+        "/api": {
           target: env.VITE_BASE_URL,
           // 是否跨域
           changeOrigin: true,
           // 路径重写
-          rewrite: path => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        "@": path.resolve(__dirname, "./src"),
       },
     },
     build: {
-      minify: 'terser',
+      minify: "terser",
       terserOptions: {
         compress: {
           // 生产环境时移除console
@@ -125,12 +124,12 @@ export default defineConfig(({ mode }) => {
           entryFileNames: `js/${chunkName}-[hash].js`, // 包的入口文件名称
           assetFileNames: `[ext]/${chunkName}-[hash].[ext]`, // 资源文件像 字体，图片等
           manualChunks(id: any): string {
-            if (id.includes('node_modules')) {
+            if (id.includes("node_modules")) {
               return id
                 .toString()
-                .split('node_modules/')[1]
-                .split('/')[0]
-                .toString()
+                .split("node_modules/")[1]
+                .split("/")[0]
+                .toString();
             }
           },
         },
@@ -139,12 +138,12 @@ export default defineConfig(({ mode }) => {
     // 使用这个必须在上面加/// <reference types="vitest" /> 不然会有类型报错
     test: {
       globals: true, // --> 0.8.1+  请修改成globals
-      environment: 'jsdom',
+      environment: "jsdom",
       // include: ['**/__tests__/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
       // passWithNoTests: true,
       transformMode: {
         web: [/\.[jt]sx$/],
       },
     },
-  }
-})
+  };
+});
