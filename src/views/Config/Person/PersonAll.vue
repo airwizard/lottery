@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-parsing-error -->
 <script setup lang="ts">
 import type { IPersonConfig } from "@/types/storeType";
 import DaiysuiTable from "@/components/DaiysuiTable/index.vue";
@@ -7,7 +6,7 @@ import useStore from "@/store";
 import { addOtherInfo } from "@/utils";
 import { readFileBinary } from "@/utils/file";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import * as XLSX from "xlsx";
 
@@ -18,7 +17,11 @@ const {
   getAlreadyPersonList: alreadyPersonList,
 } = storeToRefs(personConfig);
 const limitType = ".xlsx,.xls";
-// const personList = ref<any[]>([])
+
+// 计算 Excel 下载链接
+const excelUrl = computed(
+  () => `${import.meta.env.BASE_URL}${t("data.xlsxName")}`
+);
 
 const resetDataDialog = ref();
 const delAllDataDialog = ref();
@@ -34,9 +37,9 @@ async function handleFileChange(e: Event) {
   personConfig.resetPerson();
   personConfig.addNotPersonList(allData);
 }
+
 function exportData() {
   let data = JSON.parse(JSON.stringify(allPersonList.value));
-  // 排除一些字段
   for (let i = 0; i < data.length; i++) {
     delete data[i].x;
     delete data[i].y;
@@ -44,13 +47,9 @@ function exportData() {
     delete data[i].createTime;
     delete data[i].updateTime;
     delete data[i].prizeId;
-    // 修改字段名称
-    if (data[i].isWin) {
-      data[i].isWin = i18n.global.t("data.yes");
-    } else {
-      data[i].isWin = i18n.global.t("data.no");
-    }
-    // 格式化数组为
+    data[i].isWin = data[i].isWin
+      ? i18n.global.t("data.yes")
+      : i18n.global.t("data.no");
     data[i].prizeTime = data[i].prizeTime.join(",");
     data[i].prizeName = data[i].prizeName.join(",");
   }
@@ -63,9 +62,7 @@ function exportData() {
     .replaceAll(/identity/g, i18n.global.t("data.identity"))
     .replaceAll(/prizeName/g, i18n.global.t("data.prizeName"))
     .replaceAll(/prizeTime/g, i18n.global.t("data.prizeTime"));
-
   data = JSON.parse(dataString);
-
   if (data.length > 0) {
     const dataBinary = XLSX.utils.json_to_sheet(data);
     const dataBinaryBinary = XLSX.utils.book_new();
@@ -122,13 +119,6 @@ const tableColumns = [
   {
     label: i18n.global.t("data.operation"),
     actions: [
-      // {
-      //     label: '编辑',
-      //     type: 'btn-info',
-      //     onClick: (row: any) => {
-      //         delPersonItem(row)
-      //     }
-      // },
       {
         label: i18n.global.t("data.delete"),
         type: "btn-error",
@@ -139,21 +129,17 @@ const tableColumns = [
     ],
   },
 ];
+
 onMounted(() => {});
 </script>
 
 <template>
   <dialog id="my_modal_1" ref="resetDataDialog" class="border-none modal">
     <div class="modal-box">
-      <h3 class="text-lg font-bold">
-        {{ t("dialog.titleTip") }}
-      </h3>
-      <p class="py-4">
-        {{ t("dialog.dialogResetWinner") }}
-      </p>
+      <h3 class="text-lg font-bold">{{ t("dialog.titleTip") }}</h3>
+      <p class="py-4">{{ t("dialog.dialogResetWinner") }}</p>
       <div class="modal-action">
         <form method="dialog" class="flex gap-3">
-          <!-- if there is a button in form, it will close the modal -->
           <button class="btn" @click="resetDataDialog.close()">
             {{ t("button.cancel") }}
           </button>
@@ -166,15 +152,10 @@ onMounted(() => {});
   </dialog>
   <dialog id="my_modal_1" ref="delAllDataDialog" class="border-none modal">
     <div class="modal-box">
-      <h3 class="text-lg font-bold">
-        {{ t("dialog.titleTip") }}
-      </h3>
-      <p class="py-4">
-        {{ t("dialog.dialogDelAllPerson") }}
-      </p>
+      <h3 class="text-lg font-bold">{{ t("dialog.titleTip") }}</h3>
+      <p class="py-4">{{ t("dialog.dialogDelAllPerson") }}</p>
       <div class="modal-action">
         <form method="dialog" class="flex gap-3">
-          <!-- if there is a button in form, it will close the modal -->
           <button class="btn" @click="delAllDataDialog.close()">
             {{ t("button.cancel") }}
           </button>
@@ -201,11 +182,11 @@ onMounted(() => {});
         <a
           class="no-underline btn btn-secondary btn-sm"
           :download="t('data.xlsxName')"
-          :href="`${import.meta.env.BASE_URL}${t('data.xlsxName')}`"
+          :href="excelUrl"
           >{{ t("button.downloadTemplate") }}</a
         >
       </div>
-      <div class="">
+      <div>
         <label for="explore">
           <div
             class="tooltip tooltip-bottom"
@@ -219,7 +200,6 @@ onMounted(() => {});
               :accept="limitType"
               @change="handleFileChange"
             />
-
             <span class="btn btn-primary btn-sm">{{
               t("button.importData")
             }}</span>
@@ -235,7 +215,7 @@ onMounted(() => {});
       <div>
         <span>{{ t("table.luckyPeopleNumber") }}:</span>
         <span>{{ alreadyPersonList.length }}</span>
-        <span>&nbsp;/&nbsp;</span>
+        <span> / </span>
         <span>{{ allPersonList.length }}</span>
       </div>
     </div>
