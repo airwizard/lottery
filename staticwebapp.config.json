@@ -5,7 +5,23 @@
   "routes": [
     {
       "route": "/log-lottery/*",
-      "rewrite": "/log-lottery/index.html"
+      "rewrite": "/log-lottery/index.html",
+      "allowedMethods": ["GET"]
+    },
+    {
+      "route": "/log-lottery/home",
+      "rewrite": "/log-lottery/index.html",
+      "allowedMethods": ["GET"]
+    },
+    {
+      "route": "/log-lottery/config/*",
+      "rewrite": "/log-lottery/index.html",
+      "allowedMethods": ["GET"]
+    },
+    {
+      "route": "/log-lottery/demo",
+      "rewrite": "/log-lottery/index.html",
+      "allowedMethods": ["GET"]
     }
   ],
   "mimeTypes": {

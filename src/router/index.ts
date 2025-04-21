@@ -139,7 +139,10 @@ const routes = [
 const envMode = import.meta.env.MODE;
 const router = createRouter({
   // 读取环境变量
-  history: envMode === "file" ? createWebHashHistory() : createWebHistory(),
+  history:
+    envMode === "file"
+      ? createWebHashHistory()
+      : createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
