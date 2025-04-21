@@ -5,11 +5,23 @@ import { onMounted, ref } from "vue";
 
 const md = markdownit();
 const readmeHtml = ref("");
+const error = ref("");
+
 function readMd() {
-  fetch(`/log-lottery/${i18n.global.t("data.readmeName")}`)
-    .then((res) => res.text())
+  const fileName = i18n.global.t("data.readmeName") || "readme.md";
+  fetch(`/log-lottery/${fileName}`)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch ${fileName}: ${res.status}`);
+      }
+      return res.text();
+    })
     .then((res) => {
       readmeHtml.value = md.render(res);
+    })
+    .catch((err) => {
+      error.value = err.message;
+      console.error(err);
     });
 }
 
@@ -20,8 +32,14 @@ onMounted(() => {
 
 <template>
   <div class="w-3/4 mb-10 ml-3">
-    <div v-dompurify-html="readmeHtml" class="markdown-body" />
+    <div v-if="error" class="error">{{ error }}</div>
+    <div v-else v-dompurify-html="readmeHtml" class="markdown-body" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.error {
+  color: red;
+  padding: 10px;
+}
+</style>
