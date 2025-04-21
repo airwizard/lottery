@@ -1,21 +1,21 @@
-<script setup lang='ts'>
-import i18n from '@/locales/i18n'
-import markdownit from 'markdown-it'
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import i18n from "@/locales/i18n";
+import markdownit from "markdown-it";
+import { onMounted, ref } from "vue";
 
-const md = markdownit()
-const readmeHtml = ref('')
+const md = markdownit();
+const readmeHtml = ref("");
 function readMd() {
-  fetch(`/log-lottery/${i18n.global.t('data.readmeName')}`)
-    .then(res => res.text())
+  fetch(`/log-lottery/${i18n.global.t("data.readmeName")}`)
+    .then((res) => res.text())
     .then((res) => {
-      readmeHtml.value = md.render(res)
-    })
+      readmeHtml.value = md.render(res);
+    });
 }
 
 onMounted(() => {
-  readMd()
-})
+  readMd();
+});
 </script>
 
 <template>
@@ -24,6 +24,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
