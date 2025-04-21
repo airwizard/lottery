@@ -9,8 +9,8 @@ const error = ref("");
 
 function readMd() {
   const fileName = i18n.global.t("data.readmeName") || "readme.md";
-  const baseUrl = import.meta.env.BASE_URL || "/"; // 获取 base 路径
-  const filePath = `${baseUrl}${fileName}`.replace(/^\/\//, "/"); // 避免双斜杠
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const filePath = `${baseUrl}${fileName}`.replace(/^\/\//, "/");
   fetch(filePath)
     .then((res) => {
       if (!res.ok) {
@@ -43,5 +43,33 @@ onMounted(() => {
 .error {
   color: red;
   padding: 10px;
+}
+
+.markdown-body {
+  color: white;
+  background-color: #1a1a1a;
+  padding: 20px;
+}
+
+.markdown-body :deep(h1),
+.markdown-body :deep(h2),
+.markdown-body :deep(h3),
+.markdown-body :deep(h4),
+.markdown-body :deep(h5),
+.markdown-body :deep(h6),
+.markdown-body :deep(p),
+.markdown-body :deep(li),
+.markdown-body :deep(a) {
+  color: white;
+}
+
+.markdown-body :deep(pre),
+.markdown-body :deep(code) {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.markdown-body :deep(a:hover) {
+  color: #87cefa;
 }
 </style>

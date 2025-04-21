@@ -4,9 +4,9 @@
 
 1. Upon first entry, no data will be displayed. You can choose to use default data to view the overall display effect. It is recommended to import your own data for operation. The steps are as follows:
 
-    a. Personnel Configuration - Personnel List - Download Template, download the data template and modify it with your data (please note that the header cannot be modified).
+   a. Personnel Configuration - Personnel List - Download Template, download the data template and modify it with your data (please note that the header cannot be modified).
 
-    b. After modification, click 'Upload File' on the same page to upload the modified Excel table.
+   b. After modification, click 'Upload File' on the same page to upload the modified Excel table.
 
 2. Enter the Prize Configuration to modify your prize information. Try to keep the name short for better display; "All Participants" indicates whether this award will be drawn from all participants (those who have already won can still participate); "Winners" refers to the number of people to be drawn for this award; "Already Won" cannot be edited; "Selected" means this award has been used, unselecting it will reset the award but not the winners; "Image" is the prize image displayed on the home page (you can upload images in the image list); "Left Icon" is used to adjust the order of prizes.
 
@@ -25,7 +25,6 @@ Completing the above two steps allows normal use.
 
 Shortcuts are set up on the draw page.
 
-| Shortcut | Description |
-| --- | --- |
-| Space | Enter Draw / Start / Draw Lucky Winner / Continue |
-| Esc | Cancel |
+Space -> Enter Draw / Start / Draw Lucky Winner / Continue
+
+Esc -> Cancel
