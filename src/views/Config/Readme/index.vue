@@ -9,7 +9,9 @@ const error = ref("");
 
 function readMd() {
   const fileName = i18n.global.t("data.readmeName") || "readme.md";
-  fetch(`/log-lottery/${fileName}`)
+  const baseUrl = import.meta.env.BASE_URL || "/"; // 获取 base 路径
+  const filePath = `${baseUrl}${fileName}`.replace(/^\/\//, "/"); // 避免双斜杠
+  fetch(filePath)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`Failed to fetch ${fileName}: ${res.status}`);
