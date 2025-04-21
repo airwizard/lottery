@@ -142,7 +142,8 @@ const router = createRouter({
   history:
     envMode === "file"
       ? createWebHashHistory()
-      : createWebHistory(import.meta.env.BASE_URL),
+      : //: createWebHistory(import.meta.env.BASE_URL),
+        createWebHistory("/log-lottery/"),
   routes,
 });
 
