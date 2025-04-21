@@ -1,5 +1,29 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html"
-  }
+  },
+  "mimeTypes": {
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".md": "text/markdown"
+  },
+  "routes": [
+    {
+      "route": "/",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/log-lottery/*",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/log-lottery/*.xlsx",
+      "serve": "/log-lottery/*.xlsx",
+      "statusCode": 200
+    },
+    {
+      "route": "/log-lottery/*.md",
+      "serve": "/log-lottery/*.md",
+      "statusCode": 200
+    }
+  ]
 }
