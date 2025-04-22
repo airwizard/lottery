@@ -6,8 +6,12 @@ export const usePrizeConfig = defineStore("prize", {
   state() {
     return {
       prizeConfig: {
-        prizeList: JSON.parse(JSON.stringify(defaultPrizeList)),
-        currentPrize: JSON.parse(JSON.stringify(defaultCurrentPrize)),
+        prizeList: JSON.parse(
+          JSON.stringify(defaultPrizeList)
+        ) as IPrizeConfig[],
+        currentPrize: JSON.parse(
+          JSON.stringify(defaultCurrentPrize)
+        ) as IPrizeConfig,
         temporaryPrize: {
           id: "",
           name: "",
