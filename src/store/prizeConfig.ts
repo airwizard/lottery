@@ -34,7 +34,9 @@ export const usePrizeConfig = defineStore("prize", {
     },
     getPrizeConfigById(state) {
       return (id: number | string) => {
-        return state.prizeConfig.prizeList.find((item) => item.id === id);
+        return state.prizeConfig.prizeList.find(
+          (item: IPrizeConfig) => item.id === id
+        );
       };
     },
     getCurrentPrize(state) {
