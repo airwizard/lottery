@@ -120,6 +120,10 @@ const routes = [
         component: Home,
       },
       {
+        path: "/log-lottery",
+        redirect: "/home", // 重定向 /log-lottery 到 /home
+      },
+      {
         path: "/log-lottery/home",
         name: "LegacyHome",
         component: Home, // 兼容旧路径
