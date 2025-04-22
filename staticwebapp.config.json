@@ -1,11 +1,19 @@
 {
   "navigationFallback": {
-    "rewrite": "/log-lottery/index.html"
+    "rewrite": "/index.html"
   },
   "routes": [
     {
+      "route": "/",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/home",
+      "rewrite": "/index.html"
+    },
+    {
       "route": "/log-lottery/*",
-      "rewrite": "/log-lottery/index.html"
+      "rewrite": "/index.html"
     }
   ],
   "mimeTypes": {

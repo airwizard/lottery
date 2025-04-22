@@ -47,15 +47,6 @@ export const configRoutes = {
             icon: "already",
           },
         },
-        // {
-        //     path:'other',
-        //     name:'OtherPersonConfig',
-        //     component:()=>import('@/views/Config/Person/OtherPersonConfig.vue'),
-        //     meta:{
-        //         title:'其他配置',
-        //         icon:'other'
-        //     }
-        // }
       ],
     },
     {
@@ -116,16 +107,22 @@ export const configRoutes = {
     },
   ],
 };
+
 const routes = [
   {
-    path: "/log-lottery",
+    path: "/",
     component: Layout,
-    redirect: "/log-lottery/home",
+    redirect: "/home", // 根路径重定向到 /home
     children: [
       {
-        path: "/log-lottery/home",
+        path: "/home",
         name: "Home",
         component: Home,
+      },
+      {
+        path: "/log-lottery/home",
+        name: "LegacyHome",
+        component: Home, // 兼容旧路径
       },
       {
         path: "/log-lottery/demo",
@@ -136,15 +133,10 @@ const routes = [
     ],
   },
 ];
+
 const envMode = import.meta.env.MODE;
 const router = createRouter({
-  // 读取环境变量
-  history:
-    envMode === "file"
-      ? createWebHashHistory()
-      : createWebHistory(import.meta.env.BASE_URL),
-  //: createWebHistory(import.meta.env.BASE_URL),
-  //createWebHistory("/log-lottery/"),
+  history: envMode === "file" ? createWebHashHistory() : createWebHistory("/"),
   routes,
 });
 
