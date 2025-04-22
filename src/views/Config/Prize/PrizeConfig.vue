@@ -80,7 +80,12 @@ function submitData(value: any) {
 
 function resetDefault() {
   if (prizeList.value.length > 0) {
-    if (!confirm(t("confirm.resetToDefault") || "是否重置为默认奖品设置？")) {
+    const message =
+      t("confirm.resetToDefault") &&
+      t("confirm.resetToDefault") !== "confirm.resetToDefault"
+        ? t("confirm.resetToDefault")
+        : "是否重置为默认奖品设置？";
+    if (!confirm(message)) {
       return;
     }
   }
