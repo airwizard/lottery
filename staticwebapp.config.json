@@ -14,6 +14,10 @@
     {
       "route": "/log-lottery/*",
       "rewrite": "/index.html"
+    },
+    {
+      "route": "/config",
+      "redirect": "/log-lottery/config/"
     }
   ],
   "mimeTypes": {

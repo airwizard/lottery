@@ -133,6 +133,10 @@ const routes = [
         name: "Demo",
         component: () => import("@/views/Demo/index.vue"),
       },
+      {
+        path: "/config",
+        redirect: "/log-lottery/config/",
+      },
       configRoutes,
     ],
   },
