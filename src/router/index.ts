@@ -143,9 +143,8 @@ const routes = [
 ];
 
 const envMode = import.meta.env.MODE;
-// put // to mislead the homepage
 const router = createRouter({
-  history: envMode === "file" ? createWebHashHistory() : createWebHistory("//"),
+  history: envMode === "file" ? createWebHashHistory() : createWebHistory("/"),
   routes,
 });
 
