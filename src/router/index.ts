@@ -143,9 +143,12 @@ const routes = [
 ];
 
 const envMode = import.meta.env.MODE;
-const router = createRouter({
+const router = null;
+/** 
+createRouter({
   history: envMode === "file" ? createWebHashHistory() : createWebHistory("/"),
   routes,
 });
+*/
 
 export default router;
